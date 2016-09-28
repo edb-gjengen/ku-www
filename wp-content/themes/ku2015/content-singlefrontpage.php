@@ -3,7 +3,7 @@
  * @package ku2015
  */
 ?>
-<div class="grid third">
+<div class="front-page-entry">
 <h4><?php echo get_the_category_list($separator=', '); ?></h4>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

@@ -19,11 +19,13 @@ get_header(); ?>
 				<div class="whole"><h2 class="section-header">Siste innlegg</h2></div>
 				<div class="grid whole">
 						<!--<h4>Generelt</h4>-->
+						<div class="front-page-blog-wrap">
 						<?php 
 						query_posts(array('posts_per_page' => 6));
 						while ( have_posts() ) : the_post(); ?>
 							<?php get_template_part( 'content', 'singlefrontpage' ); ?>
 						<?php endwhile; ?>
+						</div>
 
 						<div id="social" class="grid whole">
 							<div id="social-icons">

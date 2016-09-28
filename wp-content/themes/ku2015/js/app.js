@@ -42,7 +42,7 @@ function format_posts_for_program(posts) {
     html += '<div class="program-list fadein">';
     for (var i=0; i< posts.length; i++) {
         var post = posts[i];
-        html += '<div class="event grid third '+ get_event_type_class(post) +'">'+ format_single_post(post) +'</div>';
+        html += '<div class="event '+ get_event_type_class(post) +'">'+ format_single_post(post) +'</div>';
     }
 
     return html;

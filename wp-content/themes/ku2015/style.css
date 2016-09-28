@@ -550,9 +550,9 @@ h1.site-title {
 	min-height: 540px;
 }
 
-.home #blog .grid article {
+/*.home #blog .grid article {
 	min-height: 300px;
-}
+}*/
 
 .home .event {
 	min-height: 0;
@@ -566,9 +566,9 @@ h1.site-title {
 	font-size: 16px;
 }
 
+/*.home #blog .front-page-blog-wrap,*/
 .home .event,
-.home .concept,
-.home #blog .grid {
+.home .concept {
 	padding: 20px;
 }
 
@@ -739,7 +739,7 @@ a .entry-read-more:hover {
 }
 */
 
-.home #blog .grid {
+.home #blog .front-page-blog-wrap {
 	padding-top: 0;
 }
 .home #blog .grid.whole {
@@ -1573,9 +1573,24 @@ label[for="comment"] {
 	margin: 20px auto;
 }
 
+
+.program-list, .front-page-blog-wrap {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.event, .front-page-entry {
+	flex: 0 0 33.3%;
+	padding: 0 20px 0 20px;
+}
+
 /* responsive */
 
 @media (max-width: 900px) {
+	.event, .front-page-entry {
+		flex: 0 0 50%;
+	}
+
 	.grid {
 		float: left;
 	}
@@ -1597,7 +1612,7 @@ label[for="comment"] {
 	.home #blog {
 		padding-right: 0;
 	}
-	.home #blog .grid article {
+	.home #blog .front-page-blog-wrap article {
 		min-height: 0;
 	}
 	#social.grid.third,
@@ -1638,6 +1653,10 @@ label[for="comment"] {
 }
 
 @media (max-width: 700px) {
+	.event, .front-page-entry {
+		flex: 0 0 100%;
+	}
+
 	.grid {
 		float: left;
 	}
@@ -1679,7 +1698,7 @@ label[for="comment"] {
 	}
 	.home .event,
 	.home .concept,
-	.home #blog .grid,
+	.home .front-page-entry,
 	.page .event,
 	#om-konsepter .grid.third {
 		padding-left: 0; padding-right: 0;
@@ -1691,7 +1710,7 @@ label[for="comment"] {
 	.page .event {
 		min-height: 0;
 	}
-	.home #blog .grid article {
+	.home #blog .front-page-blog-wrap article {
 		min-height: 0;
 	}
 	.blog #primary,
