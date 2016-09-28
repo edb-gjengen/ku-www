@@ -1,0 +1,40 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3067352, 2015-07-29T09:51:47-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: AvenirLTStd-Heavy by Linotype
+ * URL: http://www.myfonts.com/fonts/linotype/avenir/85-heavy/
+ * 
+ * Webfont: AvenirLTStd-Oblique by Linotype
+ * URL: http://www.myfonts.com/fonts/linotype/avenir/55-oblique/
+ * 
+ * Webfont: AvenirLTStd-Roman by Linotype
+ * URL: http://www.myfonts.com/fonts/linotype/avenir/55-roman/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=3067352
+ * Licensed pageviews: 250,000
+ * Webfonts copyright: Copyright &#x00A9; 1989, 1995, 2002 Adobe Systems Incorporated.  All Rights Reserved. &#x00A9; 1981, 1995, 2002 Heidelberger Druckmaschinen AG. All rights reserved.
+ * 
+ * © 2015 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/2ecdd8");
+
+  
+@font-face {font-family: 'AvenirLTStd-Heavy';src: url('2ECDD8_0_0.eot');src: url('2ECDD8_0_0.eot?#iefix') format('embedded-opentype'),url('2ECDD8_0_0.woff2') format('woff2'),url('2ECDD8_0_0.woff') format('woff'),url('2ECDD8_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'AvenirLTStd-Oblique';src: url('2ECDD8_1_0.eot');src: url('2ECDD8_1_0.eot?#iefix') format('embedded-opentype'),url('2ECDD8_1_0.woff2') format('woff2'),url('2ECDD8_1_0.woff') format('woff'),url('2ECDD8_1_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'AvenirLTStd-Roman';src: url('2ECDD8_2_0.eot');src: url('2ECDD8_2_0.eot?#iefix') format('embedded-opentype'),url('2ECDD8_2_0.woff2') format('woff2'),url('2ECDD8_2_0.woff') format('woff'),url('2ECDD8_2_0.ttf') format('truetype');}
+ 
