@@ -23,7 +23,8 @@ function format_single_post(post) {
         html += '<img src="'+ post.thumbnail_images["newsletter-half"].url +'" />';
     } else {
         //var stylesheet_dir = jQuery("meta[name=x-stylesheet-directory]").attr('content');
-        //html += '<img src="'+ stylesheet_dir +'/img/ku-logo3.png" />';
+        var stylesheet_dir = '/wp-content/themes/ku2015'
+        html += '<img src="'+ stylesheet_dir +'/img/ku-placeholder.png" />';
     }
     html += '</a>'
     html += '<span class="event-concept-name">' + get_event_type_name(post) + '</span>';
