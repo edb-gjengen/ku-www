@@ -99,8 +99,8 @@ function load_instafeed() {
         target: 'instagram',
         get: 'user',
         userId: 612351633, // @kulturutvalget
-        accessToken: '612351633.467ede5.0f82762612e148ee928015033a8886df',
-        clientId: '9e79c72477874cda8027016cd201f5de',
+        accessToken: '612351633.1677ed0.bc24f56bb7c640098c51bea9f6d1e59e',
+        //clientId: '9e79c72477874cda8027016cd201f5de',
         resolution: 'low_resolution',
         limit: 8,
         template: '<figure><a href="{{link}}" target="_blank"><img src="{{image}}" /></a></figure>'
