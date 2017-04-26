@@ -177,3 +177,12 @@ add_filter("get_archives_link", "get_archives_for_category");
 
 $title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
 */
+
+/* Include person custom post type */
+require get_template_directory() . '/inc/post_type_person.php';
+
+function ku_custom_post_types() {
+    global $KU_TYPES;
+    $KU_TYPES['person'] = new KUPerson();
+}
+add_action('init', 'ku_custom_post_types', 0);
