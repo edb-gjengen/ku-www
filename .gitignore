@@ -4,3 +4,4 @@ wp-config.php
 wp-content/uploads
 wp-content/**/bower_components
 wp-content/**/node_modules
+.idea
