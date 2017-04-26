@@ -76,9 +76,9 @@ class CoAuthorsPlus_Command extends WP_CLI_Command {
 
 				$count++;
 
-				$terms = cap_get_coauthor_terms_for_post( $single_post->ID );
-				if ( empty( $terms ) ) {
-					WP_CLI::error( sprintf( 'No co-authors found for post #%d.', $single_post->ID ) );
+				$terms = wp_get_post_terms( $single_post->ID, $coauthors_plus->coauthor_taxonomy );
+				if ( is_wp_error( $terms ) ) {
+					WP_CLI::error( $terms->get_error_message() );
 				}
 
 				if ( ! empty( $terms ) ) {
@@ -235,13 +235,8 @@ class CoAuthorsPlus_Command extends WP_CLI_Command {
 		$posts = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author=%d AND post_type IN ('$post_types')", $user->ID ) );
 		$affected = 0;
 		foreach ( $posts as $post_id ) {
-			$coauthors = cap_get_coauthor_terms_for_post( $post_id );
-			if ( ! empty( $coauthors ) ) {
-				WP_CLI::line( sprintf(
-					__( 'Skipping - Post #%d already has co-authors assigned: %s', 'co-authors-plus' ),
-					$post_id,
-					implode( ', ', wp_list_pluck( $coauthors, 'slug' ) )
-				) );
+			if ( $coauthors = wp_get_post_terms( $post_id, $coauthors_plus->coauthor_taxonomy ) ) {
+				WP_CLI::line( sprintf( __( 'Skipping - Post #%d already has co-authors assigned: %s', 'co-authors-plus' ), $post_id, implode( ', ', wp_list_pluck( $coauthors, 'slug' ) ) ) );
 				continue;
 			}
 
@@ -550,7 +545,7 @@ class CoAuthorsPlus_Command extends WP_CLI_Command {
 
 			foreach ( $posts->posts as $single_post ) {
 
-				$terms = cap_get_coauthor_terms_for_post( $single_post->ID );
+				$terms = wp_get_post_terms( $single_post->ID, $coauthors_plus->coauthor_taxonomy );
 				if ( empty( $terms ) ) {
 					$saved = array(
 							$single_post->ID,
@@ -703,8 +698,8 @@ class CoAuthorsPlus_Command extends WP_CLI_Command {
 		$affected = 0;
 		foreach ( $ids as $post_id ) {
 
-			$terms = cap_get_coauthor_terms_for_post( $post_id );
-			if ( empty( $terms ) ) {
+			$terms = wp_get_post_terms( $post_id, 'author' );
+			if ( ! $terms ) {
 				continue;
 			}
 

@@ -50,29 +50,18 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
-		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
+		printf( '<div id="poststuff" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 
+		// Add Help Center to the taxonomy metabox see #4701.
 		echo '<div class="inside">';
+		$tab_video_url = 'https://yoa.st/metabox-taxonomy-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 
-		$helpcenter_tab = new WPSEO_Option_Tab( 'tax-metabox', 'Meta box',
-			array( 'video_url' => 'https://yoa.st/metabox-taxonomy-screencast' ) );
-
-		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab );
-		$helpcenter->output_help_center();
 
 		echo '<div id="taxonomy_overall"></div>';
-
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
-			echo $this->get_buy_premium_link();
-		}
-
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
-			if ( $content_section->name === 'premium' ) {
-				continue;
-			}
-
 			$content_section->display_link();
 		}
 
@@ -115,19 +104,18 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			'',
+			__( '', 'wordpress-seo' ),
 			array(
-				'tab_class' => 'yoast-seo__remove-tab',
+				'link_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
+			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			array( $tab ),
 			array(
-				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+				'link_title' => __( 'Content optimization', 'wordpress-seo' ),
 			)
 		);
 	}
@@ -144,19 +132,15 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'settings',
 			$content,
-			__( 'Settings', 'wordpress-seo' ),
-			array(
-				'single' => true,
-			)
+			__( 'Settings', 'wordpress-seo' )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
 			'settings',
-			'<span class="screen-reader-text">' . __( 'Settings', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>',
+			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_aria_label' => __( 'Settings', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+				'link_title' => __( 'Settings', 'wordpress-seo' ),
 			)
 		);
 	}
@@ -171,23 +155,15 @@ class WPSEO_Taxonomy_Metabox {
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 
 		$tabs = array();
-		$single = true;
-
-		if ( $options['opengraph'] === true && $options['twitter'] === true ) {
-			$single = null;
-		}
-
 		if ( $options['opengraph'] === true ) {
 			$facebook_meta_fields = $taxonomy_social_fields->get_by_network( 'opengraph' );
 
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->taxonomy_tab_content->html( $facebook_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
+				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
+					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
 				)
 			);
 		}
@@ -198,40 +174,25 @@ class WPSEO_Taxonomy_Metabox {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->taxonomy_tab_content->html( $twitter_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
+				'<span class="dashicons dashicons-twitter"></span>',
 				array(
-					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
+					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
 				)
 			);
 		}
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
-			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
+			'<span class="dashicons dashicons-share"></span>',
 			$tabs,
 			array(
-				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+				'link_title' => __( 'Social', 'wordpress-seo' ),
 			)
 		);
 	}
 
 	/**
-	 * Returns a link to activate the Buy Premium tab.
-	 *
-	 * @return string
-	 */
-	private function get_buy_premium_link() {
-		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
-			'wpseo-metabox-buy-premium',
-			__( 'Go Premium', 'wordpress-seo' )
-		);
-	}
-
-	/**
-	 * Returns the metabox section for the Premium section..
+	 * Returns the metabox section for the Premium section.
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
@@ -252,15 +213,14 @@ class WPSEO_Taxonomy_Metabox {
 					<strong>%s</strong> - %s
 				</li>
 			</ul>
-
+			
 			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
 				%s
 			</a>
-
+			
 			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
 		</div>",
-			/* translators: %1$s expands to Yoast SEO Premium. */
-			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
 			__( 'Redirect manager', 'wordpress-seo' ),
 			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
 			__( 'Multiple focus keywords', 'wordpress-seo' ),
@@ -269,20 +229,16 @@ class WPSEO_Taxonomy_Metabox {
 			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
-			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			'https://yoa.st/pe-buy-premium',
+			__( 'Get Yoast SEO Premium now!', 'wordpress-seo' ),
+			'https://yoa.st/pe-premium-page',
 			__( 'More info', 'wordpress-seo' )
 		);
 
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'premium',
 			$content,
-			'Yoast SEO Premium',
-			array(
-				'single' => true,
-			)
+			__( 'Yoast SEO Premium', 'wordpress-seo' )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -290,8 +246,7 @@ class WPSEO_Taxonomy_Metabox {
 			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
 			array( $tab ),
 			array(
-				'link_aria_label' => 'Yoast SEO Premium',
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+				'link_title' => __( 'Yoast SEO Premium', 'wordpress-seo' ),
 			)
 		);
 	}
@@ -375,10 +330,10 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
 					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
+						<a href="#" class="remove-tab"><span>x</span></a>
 					<# } #>
 				</li>
 			</script>';
@@ -399,10 +354,10 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
 					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>
+						<a href="#" class="remove-keyword"><span>x</span></a>
 					<# } #>
 				</li>
 			</script>';

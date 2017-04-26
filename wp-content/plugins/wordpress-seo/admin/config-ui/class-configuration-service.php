@@ -24,25 +24,22 @@ class WPSEO_Configuration_Service {
 	protected $adapter;
 
 	/**
-	 * Hook into the REST API and switch language.
+	 * Hook into the REST API
+	 */
+	public function register_hooks() {
+		add_action( 'rest_api_init', array( $this, 'initialize' ) );
+	}
+
+	/**
+	 * Register the service and boot handlers
 	 */
 	public function initialize() {
-		// Switch to the user locale with fallback to the site locale.
-		if ( function_exists( 'switch_to_locale' ) ) {
-			switch_to_locale( WPSEO_Utils::get_user_locale() );
-		}
+		$this->storage->set_adapter( $this->adapter );
+		$this->storage->add_default_fields();
 
-		// Make sure we have our translations available.
-		wpseo_load_textdomain();
+		$this->components->set_storage( $this->storage );
 
-		$this->set_default_providers();
-		$this->populate_configuration();
 		$this->endpoint->register();
-
-		// @todo: check if this is really needed, since the switch happens only in the API.
-		if ( function_exists( 'restore_current_locale' ) ) {
-			restore_current_locale();
-		}
 	}
 
 	/**
@@ -103,17 +100,6 @@ class WPSEO_Configuration_Service {
 	}
 
 	/**
-	 * Populate the configuration
-	 */
-	protected function populate_configuration() {
-		$this->storage->set_adapter( $this->adapter );
-		$this->storage->add_default_fields();
-
-		$this->components->initialize();
-		$this->components->set_storage( $this->storage );
-	}
-
-	/**
 	 * Used by endpoint to retrieve configuration
 	 *
 	 * @return array List of settings.
@@ -136,8 +122,6 @@ class WPSEO_Configuration_Service {
 	 * @return array List of feedback per option if saving succeeded.
 	 */
 	public function set_configuration( WP_REST_Request $request ) {
-		$this->populate_configuration();
-
 		return $this->storage->store( $request->get_json_params() );
 	}
 }

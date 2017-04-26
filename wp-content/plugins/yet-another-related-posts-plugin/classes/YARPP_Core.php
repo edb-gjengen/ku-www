@@ -1141,18 +1141,14 @@ class YARPP {
         $this->restore_post_context();
 
         if ($related_count > 0 && $promote_yarpp && $domain != 'metabox') {
-			$output .=
-                '<p>'.
-                    sprintf(
-                        __(
-                            "Related posts brought to you by <a href='%s'>Yet Another Related Posts Plugin</a>.",
-                            'yarpp'
-                        ),
-                        'https://wordpress.org/plugins/yet-another-related-posts-plugin/'
-                    ).
-                "</p>\n";
+            $output .=
+            '<p>'.
+                '<div style="display:none;">YARPP powered by AdBistro</div>'.
+                '<a href="http://www.yarpp.com" class="yarpp-promote" target="_blank">Powered by</a>'.
+            '</p>';
         }
 
+        $output .= ($optin) ? '<img src="http://yarpp.org/pixels/'.md5(get_bloginfo('url')).'" alt="YARPP"/>'."\n" : null;
         $output .= "</div>\n";
 
         if ($echo) echo $output;
@@ -1324,7 +1320,7 @@ class YARPP {
                             "Related posts brought to you by <a href='%s'>Yet Another Related Posts Plugin</a>.",
                             'yarpp'
                         ),
-                        'https://wordpress.org/plugins/yet-another-related-posts-plugin/'
+                        'http://www.yarpp.com'
                     ).
                 "</p>\n";
         }
@@ -1468,7 +1464,7 @@ class YARPP {
 
 		if ($this->get_option('cross_relate')) {
 			$type = $this->get_post_types();
-        } else if (get_post_type() === 'page') {
+        } else if (get_post_type === 'page') {
 			$type = array('page');
         } else {
 			$type = array('post');

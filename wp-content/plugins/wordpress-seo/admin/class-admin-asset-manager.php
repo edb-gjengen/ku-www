@@ -99,30 +99,12 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array
 	 */
 	public function special_styles() {
-		$flat_version = $this->flatten_version( WPSEO_VERSION );
-
 		return array(
 			'inside-editor' => new WPSEO_Admin_Asset( array(
 				'name' => 'inside-editor',
-				'src' => 'inside-editor-' . $flat_version,
+				'src' => 'inside-editor-331',
 			) ),
 		);
-	}
-
-	/**
-	 * Flattens a version number for use in a filename
-	 *
-	 * @param string $version The original version number.
-	 * @return string The flattened version number.
-	 */
-	public function flatten_version( $version ) {
-		$parts = explode( '.', $version );
-
-		if ( count( $parts ) === 2 ) {
-			$parts[] = '0';
-		}
-
-		return implode( '', $parts );
 	}
 
 	/**
@@ -135,22 +117,20 @@ class WPSEO_Admin_Asset_Manager {
 	private function scripts_to_be_registered() {
 
 		$select2_language = 'en';
-		$user_locale      = WPSEO_Utils::get_user_locale();
-		$language         = WPSEO_Utils::get_language( $user_locale );
+		$locale           = get_locale();
+		$language         = WPSEO_Utils::get_language( $locale );
 
-		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
-			$select2_language = $user_locale; // Chinese and some others use full locale.
+		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
+			$select2_language = $locale; // Chinese and some others use full locale.
 		}
 		elseif ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$language}.js" ) ) {
 			$select2_language = $language;
 		}
 
-		$flat_version = $this->flatten_version( WPSEO_VERSION );
-
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-' . $flat_version,
+				'src'  => 'wp-seo-admin-360',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -161,7 +141,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-media',
-				'src'  => 'wp-seo-admin-media-' . $flat_version,
+				'src'  => 'wp-seo-admin-media-350',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -169,22 +149,22 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'bulk-editor',
-				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
+				'src'  => 'wp-seo-bulk-editor-350',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible-' . $flat_version,
+				'src'  => 'wp-seo-dismissible-350',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-' . $flat_version,
+				'src'  => 'wp-seo-admin-global-350',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-' . $flat_version,
+				'src'  => 'wp-seo-metabox-350',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -196,20 +176,20 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'wp-seo-featured-image-' . $flat_version,
+				'src'  => 'wp-seo-featured-image-350',
 				'deps' => array(
 					'jquery'
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
-				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
+				'src'       => 'wp-seo-admin-gsc-350',
 				'deps'      => array(),
 				'in_footer' => false,
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-' . $flat_version,
+				'src'  => 'wp-seo-post-scraper-360',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -218,22 +198,22 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-' . $flat_version,
+				'src'  => 'wp-seo-term-scraper-360',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
+				'src'  => 'wp-seo-replacevar-plugin-360',
 			),
 			array(
 				'name' => 'shortcode-plugin',
-				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
+				'src'  => 'wp-seo-shortcode-plugin-350',
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-' . $flat_version,
+				'src'  => 'wp-seo-recalculate-360',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -242,7 +222,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'wp-seo-metabox-category-' . $flat_version,
+				'src'  => 'wp-seo-metabox-category-350',
 				'deps' => array(
 					'jquery',
 					'wp-util',
@@ -250,7 +230,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'   => 'select2',
-				'src'    => 'select2/select2.full',
+				'src'    => 'select2/select2',
 				'suffix' => '.min',
 				'deps'   => array(
 					'jquery',
@@ -269,7 +249,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'configuration-wizard',
-				'src'  => 'configuration-wizard-' . $flat_version,
+				'src'  => 'configuration-wizard-360',
 				'deps' => array(
 					'jquery',
 				),
@@ -285,60 +265,64 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array styles that need to be registered.
 	 */
 	private function styles_to_be_registered() {
-		$flat_version = $this->flatten_version( WPSEO_VERSION );
-
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-' . $flat_version,
+				'src'  => 'yst_plugin_tools-350',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
+				'name'    => 'toggle-switch-lib',
+				'src'     => 'toggle-switch/toggle-switch',
+				'version' => '4.0.2',
+			),
+			array(
 				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch-' . $flat_version,
+				'src'    => 'toggle-switch-330',
+				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible-' . $flat_version,
+				'src'  => 'wpseo-dismissible-350',
 			),
 			array(
 				'name' => 'alerts',
-				'src'  => 'alerts-' . $flat_version,
+				'src'  => 'alerts-340',
 			),
 			array(
 				'name' => 'edit-page',
-				'src'  => 'edit-page-' . $flat_version,
+				'src'  => 'edit-page-330',
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'featured-image-' . $flat_version,
+				'src'  => 'featured-image-330',
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-' . $flat_version,
+				'src'  => 'metabox-360',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
 			),
 			array(
 				'name' => 'wp-dashboard',
-				'src'  => 'dashboard-' . $flat_version,
+				'src'  => 'dashboard-360',
 			),
 			array(
 				'name' => 'scoring',
-				'src'  => 'yst_seo_score-' . $flat_version,
+				'src'  => 'yst_seo_score-330',
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-' . $flat_version,
+				'src'  => 'snippet-330',
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-' . $flat_version,
+				'src'  => 'adminbar-340',
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'metabox-primary-category-' . $flat_version,
+				'src'  => 'metabox-primary-category',
 			),
 			array(
 				'name'    => 'select2',
@@ -349,23 +333,19 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'kb-search',
-				'src'  => 'kb-search-' . $flat_version,
+				'src'  => 'kb-search-350',
 			),
 			array(
 				'name' => 'help-center',
-				'src'  => 'help-center-' . $flat_version,
+				'src'  => 'help-center-340',
 			),
 			array(
 				'name' => 'admin-global',
-				'src'  => 'admin-global-' . $flat_version,
+				'src'  => 'admin-global-350',
 			),
 			array(
 				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
-			),
-			array(
-				'name' => 'extensions',
-				'src'  => 'yoast-extensions-' . $flat_version,
+				'src'  => 'yoast-components-360',
 			),
 		);
 	}

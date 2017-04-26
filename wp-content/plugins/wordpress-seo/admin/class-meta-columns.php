@@ -36,7 +36,9 @@ class WPSEO_Meta_Columns {
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
 
-		if ( $this->analysis_seo->is_enabled() ) {
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+		if ( ! empty( $options['keyword-analysis-active'] ) ) {
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 		}
 
@@ -473,7 +475,6 @@ class WPSEO_Meta_Columns {
 	 * meta key clauses and not a combination - which is what we need.
 	 *
 	 * @deprecated 3.5 Unnecessary with nested meta queries in core.
-	 * @codeCoverageIgnore
 	 *
 	 * @param    string $where Where clause.
 	 *
@@ -481,7 +482,7 @@ class WPSEO_Meta_Columns {
 	 */
 	public function seo_score_posts_where( $where ) {
 
-		_deprecated_function( __METHOD__, '3.5' );
+		_deprecated_function( 'WPSEO_Metabox_Columns::seo_score_posts_where', '3.5' );
 
 		global $wpdb;
 

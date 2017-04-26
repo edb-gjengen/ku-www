@@ -5,8 +5,6 @@
 
 /**
  * Handles storage keys for sitemaps caching and invalidation.
- *
- * @since 3.2
  */
 class WPSEO_Sitemaps_Cache_Validator {
 
@@ -25,8 +23,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 * A type of cache would be something like 'page', 'post' or 'video'.
 	 *
 	 * Example key format for sitemap type "post", page 1: wpseo_sitemap_post_1:akfw3e_23azBa
-	 *
-	 * @since 3.2
 	 *
 	 * @param null|string $type The type to get the key for. Null or self::SITEMAP_INDEX_TYPE for index cache.
 	 * @param int         $page The page of cache to get the key for.
@@ -62,8 +58,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * When there are more 'extremely long' post types, changes are they have variations in either the start or ending.
 	 * Because of this, we cut out the excess in the middle which should result in less chance of collision.
-	 *
-	 * @since 3.2
 	 *
 	 * @param string $type    The type of sitemap to be used.
 	 * @param string $prefix  The part before the type in the cache key. Only the length is used.
@@ -115,8 +109,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 	/**
 	 * Invalidate sitemap cache
 	 *
-	 * @since 3.2
-	 *
 	 * @param null|string $type The type to get the key for. Null for all caches.
 	 *
 	 * @return void
@@ -145,8 +137,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 	/**
 	 * Cleanup invalidated database cache
 	 *
-	 * @since 3.2
-	 *
 	 * @param null|string $type      The type of sitemap to clear cache for.
 	 * @param null|string $validator The validator to clear cache of.
 	 *
@@ -161,8 +151,14 @@ class WPSEO_Sitemaps_Cache_Validator {
 			$like = sprintf( '%s%%', self::STORAGE_KEY_PREFIX );
 		}
 		else {
-			// Clear type cache for all type keys.
-			$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
+			if ( ! is_null( $validator ) ) {
+				// Clear all cache for provided type-validator.
+				$like = sprintf( '%%_%s', $validator );
+			}
+			else {
+				// Clear type cache for all type keys.
+				$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
+			}
 		}
 
 		/**
@@ -188,8 +184,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 * With the type parameter the validator for that specific
 	 *  type can be invalidated
 	 *
-	 * @since 3.2
-	 *
 	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
 	 * @return null|string The validator for the supplied type.
@@ -213,8 +207,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 	/**
 	 * Get the cache validator option key for the specified type
 	 *
-	 * @since 3.2
-	 *
 	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
 	 * @return string Validator to be used to generate the cache key.
@@ -230,8 +222,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 	/**
 	 * Refresh the cache validator value
-	 *
-	 * @since 3.2
 	 *
 	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
@@ -262,8 +252,6 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 	/**
 	 * Encode to base61 format.
-	 *
-	 * @since 3.2
 	 *
 	 * This is base64 (numeric + alpha + alpha upper case) without the 0.
 	 *

@@ -407,7 +407,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	function get_sortable_columns() {
-		return array(
+		return $sortable = array(
 			'col_page_title' => array( 'post_title', true ),
 			'col_post_type'  => array( 'post_type', false ),
 			'col_post_date'  => array( 'post_date', false ),
@@ -705,7 +705,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 						$classes .= ' has-row-actions column-primary';
 					}
 
-					$attributes = $this->column_attributes( $column_name, $hidden, $classes, $column_display_name );
+					$attributes = $this->column_attributes( $column_name, $hidden, $classes );
 
 					$column_value = $this->parse_column( $column_name, $rec );
 
@@ -726,27 +726,22 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting the attributes for each table cell.
 	 *
-	 * @param string $column_name         Column name string.
-	 * @param array  $hidden              Set of hidden columns.
-	 * @param string $classes             Additional CSS classes.
-	 * @param string $column_display_name Column display name string.
+	 * @param string $column_name Column name string.
+	 * @param array  $hidden      Set of hidden columns.
+	 * @param string $classes     Additional CSS classes.
 	 *
 	 * @return string
 	 */
-	protected function column_attributes( $column_name, $hidden, $classes, $column_display_name ) {
+	protected function column_attributes( $column_name, $hidden, $classes ) {
 
-		$attributes = '';
-		$class = array( $column_name, "column-$column_name$classes" );
+		$class = sprintf( 'class="%1$s column-%1$s%2$s"', $column_name, $classes );
+		$style = '';
 
 		if ( in_array( $column_name, $hidden ) ) {
-			$class[] = 'hidden';
+			$style = ' style="display:none;"';
 		}
 
-		if ( ! empty( $class ) ) {
-			$attributes = 'class="' . implode( ' ', $class ) . '"';
-		}
-
-		$attributes .= ' data-colname="' . esc_attr( $column_display_name ) . '"';
+		$attributes = $class . $style;
 
 		return $attributes;
 	}
@@ -760,9 +755,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_page_title_column( $rec ) {
 
-		$title = empty( $rec->post_title ) ? __( '(no title)', 'wordpress-seo' ) : $rec->post_title;
-
-		$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $title ) ) );
+		$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ) );
 
 		$post_type_object = get_post_type_object( $rec->post_type );
 		$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
@@ -774,7 +767,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				'<a href="%s" aria-label="%s">%s</a>',
 				esc_url( get_edit_post_link( $rec->ID, true ) ),
 				/* translators: %s: post title */
-				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ),
 				__( 'Edit', 'wordpress-seo' )
 			);
 		}
@@ -786,7 +779,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 						'<a href="%s" aria-label="%s">%s</a>',
 						esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ),
 						/* translators: %s: post title */
-						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ),
 						__( 'Preview', 'wordpress-seo' )
 					);
 				}
@@ -796,7 +789,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 					esc_url( get_permalink( $rec->ID ) ),
 					/* translators: %s: post title */
-					esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+					esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ),
 					__( 'View', 'wordpress-seo' )
 				);
 			}
@@ -850,12 +843,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				break;
 
 			case 'col_row_action':
-				$column_value = sprintf(
-					'<a href="#" role="button" class="wpseo-save" data-id="%1$s">%2$s</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">%3$s</a>',
-					$rec->ID,
-					esc_html__( 'Save', 'wordpress-seo' ),
-					esc_html__( 'Save all', 'wordpress-seo' )
-				);
+				$column_value = sprintf( '<a href="#" role="button" class="wpseo-save" data-id="%1$s">Save</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">Save All</a>', $rec->ID );
 				break;
 		}
 

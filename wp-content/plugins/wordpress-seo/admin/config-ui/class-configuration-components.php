@@ -15,13 +15,11 @@ class WPSEO_Configuration_Components {
 	protected $adapter;
 
 	/**
-	 * Add default components.
+	 * WPSEO_Configuration_Components constructor.
 	 */
-	public function initialize() {
+	public function __construct() {
 		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
 		$this->add_component( new WPSEO_Config_Component_Mailchimp_Signup() );
-		$this->add_component( new WPSEO_Config_Component_Configuration_Choices() );
-		$this->add_component( new WPSEO_Config_Component_Suggestions() );
 	}
 
 	/**

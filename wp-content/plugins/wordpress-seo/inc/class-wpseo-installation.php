@@ -38,7 +38,6 @@ class WPSEO_Installation {
 
 		$options['enable_setting_pages']   = false;
 		$options['show_onboarding_notice'] = true;
-		$options['first_activated_on']     = time();
 
 		update_option( 'wpseo', $options );
 	}
