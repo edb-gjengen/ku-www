@@ -30,7 +30,11 @@ while ($person->have_posts()):
         <p><img src="<?php echo $thumbnail; ?>" /></p>
         <h3><?php the_title(); ?></h3>
         <h2><?php echo $post->position; ?></h2>
-        <p><a href="mailto:<?php echo $post->email; ?>"><?php echo $post->email; ?></a></p>
+        <p>
+            <?php if($post->email): ?>
+                <a href="mailto:<?php echo $post->email; ?>"><?php echo $post->email; ?></a>
+            <?php endif; ?>
+        </p>
     </div>
 
 <?php endwhile; ?>
